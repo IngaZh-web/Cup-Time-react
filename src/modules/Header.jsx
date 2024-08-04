@@ -1,51 +1,73 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom";
 
 export const Header = () => {
-	return (
-		<header className="header">
-		<div className="container header__container">
-			<Link to ="/" className="header-logo__link">
-				<img
-					className="header__logo"
-					src="images/logo.svg"
-					alt="Логотип Cup Time"
-				/>
-			</Link>
+  const location = useLocation();
 
-			<nav className="header__nav">
-				<ul className="header__menu">
-					<li className="header__menu-item">
-						<a className="header__menu-link" href="#">
-							Чай
-						</a>
-					</li>
-					<li className="header__menu-item">
-						<a className="header__menu-link" href="#">
-							Кофе
-						</a>
-					</li>
-					<li className="header__menu-item">
-						<a className="header__menu-link" href="#">
-							Чайники
-						</a>
-					</li>
-					<li className="header__menu-item">
-						<a className="header__menu-link" href="#">
-							Турки
-						</a>
-					</li>
-					<li className="header__menu-item">
-						<a className="header__menu-link" href="#">
-							Прочее
-						</a>
-					</li>
-				</ul>
-			</nav>
+  const getActiveClass = (category) => {
+    const currentCategory = new URLSearchParams(location.search).get(
+      "category"
+    );
 
-			<Link className="header__cart-link" to="cart">
-				6
-			</Link>
-		</div>
-	</header>
-	)
-}
+    return currentCategory === category ? "active" : "";
+  };
+  return (
+    <header className="header">
+      <div className="container header__container">
+        <Link to="/" className="header-logo__link">
+          <img
+            className="header__logo"
+            src="images/logo.svg"
+            alt="Логотип Cup Time"
+          />
+        </Link>
+
+        <nav className="header__nav">
+          <ul className="header__menu">
+            <li className="header__menu-item">
+              <Link 
+							className={`header__menu-link ${getActiveClass("tea")}`} 
+							to="/products?category=tea">
+                Чай
+              </Link>
+            </li>
+            <li className="header__menu-item">
+              <Link
+                className={`header__menu-link ${getActiveClass("coffee")}`}
+                to="/products?category=coffee"
+              >
+                Кофе
+              </Link>
+            </li>
+            <li className="header__menu-item">
+              <Link
+                className={`header__menu-link ${getActiveClass("teapots")}`}
+                to="/products?category=teapots"
+              >
+                Чайники
+              </Link>
+            </li>
+            <li className="header__menu-item">
+              <Link
+                className={`header__menu-link ${getActiveClass("cezves")}`}
+                to="/products?category=cezves"
+              >
+                Турки
+              </Link>
+            </li>
+            <li className="header__menu-item">
+              <Link 
+							className={`header__menu-link ${getActiveClass("other")}`} 
+							to="/products?category=other">
+                Прочее
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Link className="header__cart-link" to="cart">
+          6
+        </Link>
+      </div>
+    </header>
+  );
+};

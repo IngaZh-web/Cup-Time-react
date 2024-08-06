@@ -11,14 +11,13 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-		if(Array.isArray(cart)) {
-			localStorage.setItem("cart", JSON.stringify(cart));
-		}   
+    if (Array.isArray(cart)) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   }, [cart]);
 
   const addToCart = (product, quantity) => {
     const newCart = [...cart];
-		
 
     const itemIndex = newCart.findIndex((item) => item.id === product.id);
 
@@ -39,14 +38,20 @@ export const CartProvider = ({ children }) => {
       removeFromCart(productId);
     } else {
       setCart(
-        cart.map((item) => (item.id === productId ? { ...item, quantity } : item))
+        cart.map((item) =>
+          item.id === productId ? { ...item, quantity } : item
+        ),
       );
     }
   };
 
+	const clearCart = () => {
+		setCart([])
+	}
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>
